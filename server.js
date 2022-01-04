@@ -37,3 +37,13 @@ process.on("unhandledRejection", err=>{
     }  )
 })
 
+process.on('SIGTERM',()=>{ // this even heroku does every day to shut down the server and restart it again
+    // to whatever reason to make the app healthy
+    // but we don't want to shut down without handling the reqs we are processing so we shut down the server bye closing the server first
+    // not in a bad way
+    console.log("SIGTERM RECEIVED. SHUTTING DOWN GRACEFULLY");
+    server.close(()=>{
+        console.log("process terminated!");
+    })
+})
+

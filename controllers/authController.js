@@ -16,13 +16,16 @@ const signToken = id => {
     );
 };
 
-const createSendToken = (user, statusCode, res) => {
+const createSendToken = (user, statusCode, req,res) => {
     let cookieOptions = {
         expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRE_IN * 24 * 60 * 60 * 1000), //converting the 90 to 90 days in milie sec
         httpOnly: true,
 
     };
-    if (process.env.NODE_ENV === 'production') cookieOptions.secure = true; // because it will work only on https
+
+    // note that we don't just check for req.secure but actually the proxy of heroku will remove this from the header and
+    // so we also check these headers which was set by heroku
+    if (req.secure || req.headers['x-forwarded-proto']==='https') cookieOptions.secure = true; // because it will work only on https
     const token = signToken(user._id);
     res.cookie('jwt', token, cookieOptions);
     user.password = undefined;
@@ -48,7 +51,7 @@ exports.signup = catchAsync(async (req, res, next) => {
     });
      await  new Email(newUser,url).sendWelcome();
 
-    createSendToken(newUser, 201, res);
+    createSendToken(newUser, 201,req, res);
 });
 
 
@@ -65,7 +68,7 @@ exports.login = catchAsync(async (req, res, next) => {
     user.password = undefined;
     user.passwordChangedAt = undefined;
 
-    createSendToken(user, 200, res);
+    createSendToken(user, 200,req, res);
 });
 
 exports.protect = catchAsync(async (req, res, next) => {
@@ -212,7 +215,7 @@ exports.restPassword = catchAsync(async (req, res, next) => {
     //Update changedPasswordAt prop for the user
     //log the user in , send jwt
 
-    createSendToken(user, 200, res);
+    createSendToken(user, 200, req,res);
 });
 
 
@@ -230,7 +233,7 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
     await user.save();
 
     //4 log user in , send JWT
-    createSendToken(user, 200, res);
+    createSendToken(user, 200,req,res);
 
 
 });
