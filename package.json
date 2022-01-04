@@ -10,7 +10,7 @@
     "start:prod": "cross-env  NODE_ENV=production nodemon server.js",
     "debug": "ndb server.js",
     "watch:js": "parcel watch ./public/js/index.js --out-dir ./public/js --out-file bundle.js",
-    "bulid:js": "parcel watch ./public/js/index.js --out-dir ./public/js --out-file bundle.js"
+    "bulid:js": "parcel build ./public/js/index.js --out-dir ./public/js --out-file bundle.js"
   },
   "author": "",
   "license": "ISC",
@@ -24,6 +24,7 @@
     "bcryptjs": "^2.4.3",
     "chalk": "^4.1.2",
     "clone": "^2.1.2",
+    "compression": "^1.7.4",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "cross-env": "^7.0.3",

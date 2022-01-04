@@ -3,7 +3,6 @@ const morgan = require("morgan");
 const rateLimit = require("express-rate-limit");
 const helmet = require("helmet");
 const helmetcsp = require("helmet-csp");
-
 const mongoSanitize = require("express-mongo-sanitize");
 const xss = require('xss-clean');
 const hpp = require('hpp');
@@ -11,7 +10,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const nocache = require('nocache')
 const cors = require('cors')
-
+const compression = require('compression')
 
 const viewRouter = require('./routes/viewRoutes')
 AppError = require("./utils/appError");
@@ -83,6 +82,9 @@ app.use(hpp({
         'difficulty'
     ]
 }));
+
+
+app.use(compression());
 
 app.use((req,res,next)=>{
     res.set({
