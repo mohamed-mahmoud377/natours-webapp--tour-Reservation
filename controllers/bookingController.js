@@ -72,12 +72,12 @@ exports.webhookCheckout = async(req,res,next)=>{
          event =stripe.webhooks.constructEvent(req.body,signature,process.env.STRIPE_WEBHOOK_SECRET) ;// that's why we need it in a raw format because stripe said so :(
 
     }catch (e) {
-            return res.status(400).send(`webhook error: ${e.message}`)
+            return res.status(400).json({error:`webhook error: ${e.message}`});
     }
     if(event.type==='checkout.session.completed'){
         await createBookingCheckout(event.data.object)
     }
-    res.status(200).send();
+    res.status(200).json({done:true});
 
 
 }
