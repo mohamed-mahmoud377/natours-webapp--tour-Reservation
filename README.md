@@ -1,6 +1,6 @@
 # natours-webapp--tour-Reservation
-![GitHub forks](https://img.shields.io/github/forks/mmsaeed509/Wireless-Pi-Tool-Kit?color=brightgreen)
-![Stars](https://img.shields.io/github/stars/mmsaeed509/Wireless-Pi-Tool-Kit?color=brightgreen)
+![GitHub forks](https://img.shields.io/github/forks/mohamed-mahmoud377/natours-webapp--tour-Reservation)
+![Stars](https://img.shields.io/github/stars/mohamed-mahmoud377/natours-webapp--tour-Reservation)
 ![Last-Commit](https://img.shields.io/github/last-commit/mohamed-mahmoud377/natours-webapp--tour-Reservation)
 ![Repo-Size](https://img.shields.io/github/repo-size/mohamed-mahmoud377/natours-webapp--tour-Reservation)
 ![code-size](https://img.shields.io/github/languages/code-size/mohamed-mahmoud377/natours-webapp--tour-Reservation)
