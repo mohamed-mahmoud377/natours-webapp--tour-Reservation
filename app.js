@@ -18,6 +18,7 @@ const tourRouter = require("./routes/tourRoutes");
 const userRouter = require("./routes/userRoutes");
 const reviewRouter = require('./routes/reviewRoutes');
 const bookingRouter = require('./routes/bookingRoutes');
+const bookingController = require('./controllers/bookingController')
 
 const globalErrorHandler = require("./controllers/errorContoller");
 
@@ -58,6 +59,10 @@ const limiter = rateLimit({
 
 app.use("/api", limiter); // put the limiter to our middlewares
 
+// note this
+//why is this route here it is right before express.json and that's because we here need the data in a raw format not in jason format
+// so we had to do it before it and use express.raw instead
+app.post('/webhook-checkout',express.raw({type:'application/json'}),bookingController.webhookCheckout);
 
 app.use(express.json({
     limit: '20kb' // limiting the size of the body
