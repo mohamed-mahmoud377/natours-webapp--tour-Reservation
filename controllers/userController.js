@@ -5,6 +5,8 @@ const User = require("./../models/userModel");
 const factory = require('./handlerFactory');
 const multer = require("multer");
 const sharp = require('sharp');
+const Booking = require("../models/bookingModel");
+const Tour = require("../models/tourModel");
 // here when we wanted to save the img directly to disk but now we need to process it so we will leave in memory for now
 // const multerStorage = multer.diskStorage({ // to have more control over your storage we do it this way
 //     destination: (req, file, cb) => {   // function to set the location cb is callback function of course
@@ -103,6 +105,19 @@ exports.createUser = (req, res) => {
 
     });
 };
+
+exports.getMyTours= catchAsync(async (req,res,next)=>{
+    // 1 find all bookings
+    const bookings = await Booking.find({user: req.user.id})
+    //2 find tours the returned IDs
+    const tourIds = bookings.map(el=>el.tour);
+    const tours = await Tour.find ({_id : {$in : tourIds}}); // here we find the _id which is in this array using $in
+    res.status(200).json({
+        status:'success',
+        results:tours.length,
+        tours,
+    });
+})
 
 exports.getAllUsers = factory.getAll(User);
 exports.getUser = factory.getOne(User);

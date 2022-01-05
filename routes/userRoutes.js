@@ -23,6 +23,7 @@ router.get('/me',userController.getMe,userController.getUser) // here we get the
 router.delete("/deleteMe",userController.deleteMy)
 router.patch("/updateMyPassword",authController.updatePassword)
 router.patch("/updateMe",userController.uploadUserphoto,userController.resizeUserPhoto,userController.updateMe) // single for only one single file and photo is the name of the field that is going to hold the photo
+router.get('/my-tours',userController.getMyTours);
 
 
 router.use(authController.restrictTo('admin'))// same as above

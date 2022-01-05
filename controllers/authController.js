@@ -81,7 +81,7 @@ exports.protect = catchAsync(async (req, res, next) => {
         token = req.cookies.jwt; // to be able to authenticate via cookie too
     }
     if (!token) {  // if there was no token in the header  or it wasn't starting with Bearer
-        return next(new AppError("You are not authenticated."), 401);
+        return next(new AppError("You are not authenticated.",401));
     }
     //verification token
 
@@ -92,7 +92,7 @@ exports.protect = catchAsync(async (req, res, next) => {
     //Check if user still exists
     const currentUser = await User.findById(decoded.id);
     if (!currentUser) {
-        return next(new AppError("User is no longer exists"), 401);
+        return next(new AppError("User is no longer exists",401));
     }
 
 

@@ -4,6 +4,7 @@ const tourController = require("./../controllers/tourController");
 const router = express.Router();
 const authController = require('./../controllers/authController')
 const reviewRouter = require('./../routes/reviewRoutes')
+const {restrictTo} = require("../controllers/authController");
 
 
 // here it goes to two middle wares alias then getAll which is brilliant
@@ -24,7 +25,7 @@ router.route("/tours-within/:distance/center/:latlng/unit/:unit").get(tourContro
 
 
 router.route('/distances/:latlng/unit/:unit').get(tourController.getDistances);
-router.route("/tour-stats").get(tourController.getTourStats);
+router.route("/tour-stats").get(authController.protect,restrictTo('admin'),tourController.getTourStats);
 
 router.route("/monthly-plan/:year")
     .get(authController.protect,
