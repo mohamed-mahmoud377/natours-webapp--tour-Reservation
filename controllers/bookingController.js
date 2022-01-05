@@ -1,8 +1,9 @@
 const Tour = require("./../models/tourModel");
-const catchAsync = require("./../utils/catchAsync");
+
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
 const Booking= require("./../models/bookingModel")
 const User= require("./../models/userModel")
+const catchAsync = require('./../utils/catchAsync')
 
 const factory = require('./handlerFactory')
 
@@ -57,18 +58,18 @@ exports.getCheckoutSession = catchAsync(async (req,res,next)=>{
 // })
 
 
-const createBookingCheckout = async session=>{
+const createBookingCheckout = catchAsync(async session=>{
     console.log("we know should be creating booking");
     const tourId = session.client_reference_id;
     const userId = await User.findOne({email:session.customer_email}).id;
-    const price = session.customer_details[0].amount /100;
+    const price = session.amount_total /100;
     console.log(tourId, userId,price);
     await Booking.create({tourId,userId,price});
     console.log('book created');
 
-}
+})
 
-exports.webhookCheckout = async(req,res,next)=>{
+exports.webhookCheckout =catchAsync(async(req,res,next)=>{
     let event;
     try{
         const signature = req.headers['stripe-signature'];
@@ -83,7 +84,7 @@ exports.webhookCheckout = async(req,res,next)=>{
     res.status(200).json({done:true});
 
 
-}
+})
 
 
 
