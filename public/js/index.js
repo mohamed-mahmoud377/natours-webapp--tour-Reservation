@@ -82,4 +82,4 @@ if (bookBtn)
     bookTour(tourId);
   });
 
-if (alert) showAlert('success',alertMessage);
+if (alertMessage) showAlert('success',alertMessage);
